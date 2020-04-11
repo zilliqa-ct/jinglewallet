@@ -14,7 +14,53 @@ var uploads = multer({
   dest: 'public/uploads/'
 });
 
+const {
+  toBech32Address, fromBech32Address
+} = require('@zilliqa-js/crypto');
+
 var fs = require('fs');
+
+fetchBalance = async (contractAddress, userAddress) => {
+  try {
+    let smartContractState = await zilliqa.blockchain.getSmartContractState(contractAddress);
+    
+    if(smartContractState){
+
+      let balances_map = smartContractState.result.balances_map;
+
+      userAddress = userAddress.toLowerCase();
+      let userBalance = balances_map[userAddress];
+
+      return userBalance;
+    }
+  } catch (error) {
+
+  }
+}
+
+fetchContractData = async (contractAddress) => {
+  try {
+    let smartContractData = await zilliqa.blockchain.getSmartContractInit(contractAddress);
+    
+    if(smartContractData){
+
+
+      var name = "";
+      var symbol = "";
+
+      smartContractData.result.forEach(function (item, index) {
+        if (item.vname == "name") name = item.value;
+        else if (item.vname == "symbol") symbol = item.value;
+      });
+
+      var contractData = { "tokenName" : name, "tokenSymbol" : symbol};
+
+       return contractData;
+    }
+  } catch (error) {
+
+  }
+}
 
 /* read the keystore */
 router.post('/',  uploads.single('keystore'), function (req, res, next) {
@@ -49,12 +95,26 @@ router.post('/',  uploads.single('keystore'), function (req, res, next) {
       return;
     }
 
-    const address = await zilliqa.wallet.addByKeystore(data,pp).catch((err)=>{
+    const userAddress = await zilliqa.wallet.addByKeystore(data,pp).catch((err)=>{
       res.render("form", { title: "Jingle Wallet v1.0", error: true});
       return;
     });
 
-    res.render('wallet', { title: "Jingle Wallet v1.0", key: address });
+    // hardcoding the smart contract address
+    // todo - find a better way to specify
+    
+    var contractAddress = "zil1hn45mrklee9ytmgljjwlc2dwu32p9anj732df9";
+    var zrc2TokenBalance = 0;
+
+    zrc2TokenBalance = await fetchBalance(contractAddress, userAddress);
+
+    contractData = await fetchContractData(contractAddress);
+
+    // convert user address to bech32
+
+    // userAddress = toBech32Address("0x" + userAddress);
+
+    res.render('wallet', { title: "Jingle Wallet v1.0", key: userAddress, balance: {  data: contractData, zrc2balance: zrc2TokenBalance } });
 
   })
 

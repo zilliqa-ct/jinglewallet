@@ -191,3 +191,31 @@ a {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+
+  .Info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  
+    width: 100%;
+  
+    border-radius: 5px;
+  
+    overflow: hidden;
+    background: green;
+    color: white;
+    padding: 15px;
+  
+    font-family: var(--logo-font);
+  
+    border-bottom: var(--ui-shawdow-border);
+    box-shadow: var(--ui-shawdow);
+  }
+
+table.Info th, table.Info td
+{
+    padding: 50px; /* 'cellpadding' equivalent */
+    text-align: left;
+    border: 1px solid black;
+}

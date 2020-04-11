@@ -2,12 +2,13 @@ extends layout
 
 block layout-content
   div.View.WelcomeView
-    h1.Banner Jingle Wallet - Wallet
-    div.Message
-      div.Title
-        h3 #{key}
-        h1 Zilliqa ZRC2 token wallet
-      span.Details Zilliqa wallet supporting ZRC2 token
-    div.NavButtons
-      a(href="/wallet")
-          div.NavButton Show the money
+    h1.Banner Jingle Wallet #{key}
+
+      table.Info
+
+        tbody
+              tr
+                td #{balance.data.tokenName}
+                td #{balance.data.tokenSymbol}
+                td #{balance.zrc2balance}
+    
