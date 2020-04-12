@@ -47,8 +47,6 @@ class Utility {
     }
 }
 
-
-
 module.exports = {
     Utility: Utility
 }
