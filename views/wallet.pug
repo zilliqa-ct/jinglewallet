@@ -12,15 +12,17 @@ block layout-content
                 td #{balance.data.tokenSymbol}
                 td #{balance.zrc2balance}
 
+      #status
+        if status
+            p #{statusText}
+
       form(class="form-signin" method="POST" action="/transact/send")
             
             #error
-                if error
-                    p.text-danger #{errorText}
+              if error
+                  p.text-danger #{errorText}
 
-            #status
-                if status
-                    p #{statusText}
+            
 
             - var h1Classes = ['h3', 'mb-3', 'font-weight-normal']
             h1(class=h1Classes) Send tokens
