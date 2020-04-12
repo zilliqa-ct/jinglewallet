@@ -29,9 +29,11 @@ router.post('/send', async function (req, res, next) {
 
     zrc2TokenBalance = await Utility.fetchBalance(contractAddress, session.useraddress);
 
-    contractData = await Utility.fetchContractData(contractAddress);   
+    contractData = await Utility.fetchContractData(contractAddress);
 
-    res.render('wallet', { title: "Jingle Wallet v1.0", status: true, statusText: sendState, key: session.useraddress, balance: {  data: contractData, zrc2balance: zrc2TokenBalance } });
+    session.zrc2TokenBalance = zrc2TokenBalance;
+
+    res.render('wallet', { title: "Jingle Wallet v1.0", status: true, statusText: "Success! Txn ID = 0x" + sendState, key: session.useraddress, balance: {  data: contractData, zrc2balance: zrc2TokenBalance } });
 
   } catch (e)
   {

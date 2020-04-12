@@ -103,8 +103,8 @@ class Wallet {
             );
 
             console.log(JSON.stringify(callTx.receipt, null, 4));
-            
-            return callTx.receipt;
+
+            return callTx.id;
         
         } catch (err) {
             throw ("Could not send" + err);
