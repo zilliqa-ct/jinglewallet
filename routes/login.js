@@ -44,7 +44,10 @@ router.post('/',  uploads.single('keystore'), async function (req, res, next) {
       contractData = await Utility.fetchContractData(contractAddress);
 
       // store the contract address
-      session.contractaddress = contractAddress;    
+      session.contractaddress = contractAddress; 
+      
+      session.contractData = contractData;
+      session.zrc2TokenBalance = zrc2TokenBalance;
 
       res.render('wallet', { title: "Jingle Wallet v1.0", key: loginState.userAddress, balance: {  data: contractData, zrc2balance: zrc2TokenBalance } });
 

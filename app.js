@@ -7,6 +7,7 @@ var multer = require('multer');
 
 var formRouter = require('./routes/form');
 var loginRouter = require('./routes/login');
+var transactRouter = require('./routes/transact');
 
 var app = express();
 
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', formRouter);
 app.use('/login', loginRouter);
+app.use('/transact', transactRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -4,7 +4,11 @@ const zilliqa = new Zilliqa('https://dev-api.zilliqa.com');
 const {
     decryptPrivateKey,
     getAddressFromPrivateKey,
+    fromBech32Address,
+    toBech32Address
   } = require('@zilliqa-js/crypto');
+
+  const {BN, Long, bytes, units} = require('@zilliqa-js/util');
 
 class Wallet {
 
@@ -56,6 +60,56 @@ class Wallet {
 
         return loginState;
     }
+
+    static sendTransaction = async(privateKey, contractAddress, recipientAddress, sendingAmount) => {
+        let zilliqa = new Zilliqa('https://dev-api.zilliqa.com');
+        zilliqa.wallet.addByPrivateKey(privateKey);
+    
+        const CHAIN_ID = 333;
+        const MSG_VERSION = 1;
+        const VERSION = bytes.pack(CHAIN_ID, MSG_VERSION);
+    
+    
+        const myGasPrice = units.toQa('1000', units.Units.Li); // Gas Price that will be used by all transactions
+        recipientAddress = fromBech32Address(recipientAddress);//converting to ByStr20 format
+        // const ftAddr = toBech32Address(contractAddress);
+
+        try {
+            const contract = zilliqa.contracts.at(contractAddress);
+            const callTx = await contract.call(
+                'Transfer',
+                [
+                    {
+                        vname: 'to',
+                        type: 'ByStr20',
+                        value: recipientAddress,
+                    },
+                    {
+                        vname: 'amount',
+                        type: 'Uint128',
+                        value: sendingAmount,
+                    }
+                ],
+                {
+                    // amount, gasPrice and gasLimit must be explicitly provided
+                    version: VERSION,
+                    amount: new BN(0),
+                    gasPrice: myGasPrice,
+                    gasLimit: Long.fromNumber(10000),
+                },
+                33,
+                100,
+                false,
+            );
+
+            console.log(JSON.stringify(callTx.receipt, null, 4));
+            
+            return callTx.receipt;
+        
+        } catch (err) {
+            throw ("Could not send" + err);
+        }
+        }
 }
 
 module.exports = {
