@@ -1,6 +1,10 @@
 extends layout
 
 block layout-content
+  div#overlay
+    div#centeredtext
+      span Sending in Progress ...
+
   div.View.WelcomeView
     h1.Banner Jingle Wallet #{key}
 
@@ -22,8 +26,6 @@ block layout-content
               if error
                   p.text-danger #{errorText}
 
-            
-
             - var h1Classes = ['h3', 'mb-3', 'font-weight-normal']
             h1(class=h1Classes) Send tokens
 
@@ -34,4 +36,4 @@ block layout-content
             input(type="text" name="amount" id="inputAmount" class="form-control" placeholder="100" required)
 
             - var buttonClass=['btn', 'btn-lg', 'btn-primary', 'btn-block'];
-            button(class=buttonClass type="submit") Send
+            button(class=buttonClass type="submit" id="SendButton") Send
