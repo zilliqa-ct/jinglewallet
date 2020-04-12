@@ -10,6 +10,9 @@ var walletRouter = require('./routes/wallet');
 
 var app = express();
 
+const session = require('express-session');
+app.use(session({secret: 'kittyhawk', saveUninitialized: false, resave: false}));
+
 //parse requests
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -40,6 +43,5 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
 
 module.exports = app;
