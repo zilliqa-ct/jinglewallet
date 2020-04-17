@@ -98,7 +98,7 @@ class Wallet {
                     gasLimit: Long.fromNumber(10000),
                 },
                 33,
-                100,
+                1000,
                 false,
             );
 
