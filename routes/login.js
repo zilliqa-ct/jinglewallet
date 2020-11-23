@@ -36,7 +36,7 @@ router.post('/',  uploads.single('keystore'), async function (req, res, next) {
     session.privatekey = loginState.pk;
     session.useraddress = loginState.userAddress;
       
-      var contractAddress = "zil1hn45mrklee9ytmgljjwlc2dwu32p9anj732df9";
+      var contractAddress = "zil1g25segdldh7hcudv4dc65snpf3fc78h65s9qrd";
       var zrc2TokenBalance = 0;
 
       zrc2TokenBalance = await Utility.fetchBalance(contractAddress, loginState.userAddress);

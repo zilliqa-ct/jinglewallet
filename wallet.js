@@ -70,7 +70,7 @@ class Wallet {
         const VERSION = bytes.pack(CHAIN_ID, MSG_VERSION);
     
     
-        const myGasPrice = units.toQa('1000', units.Units.Li); // Gas Price that will be used by all transactions
+        const myGasPrice = units.toQa('2000', units.Units.Li); // Gas Price that will be used by all transactions
         recipientAddress = fromBech32Address(recipientAddress);//converting to ByStr20 format
         // const ftAddr = toBech32Address(contractAddress);
 
